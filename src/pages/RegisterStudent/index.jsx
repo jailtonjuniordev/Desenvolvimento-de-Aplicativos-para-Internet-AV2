@@ -10,7 +10,7 @@ export const RegisterStudent = () => {
     const dataLocal = JSON.parse(localStorage.getItem('dataLocal')) || []
 
     const [data, setData] = useState({
-        'matricula': dataLocal[dataLocal.length - 1].matricula + 1,
+        'matricula': dataLocal.length > 0 ? parseInt(dataLocal[dataLocal.length - 1].matricula) + 1 : 1,
         'nomeCompleto': '',
         'etapaEnsino': '',
         'serie': '',
@@ -21,7 +21,6 @@ export const RegisterStudent = () => {
         'uf': ''
     })
 
-
     const handleInputChange = (e) => {
         const {name, value} = e.target;
 
@@ -31,11 +30,15 @@ export const RegisterStudent = () => {
         }));
     }
 
-    const handleSaveStudent = () => {
+    const handleSaveStudent = (e) => {
+        e.preventDefault();
+
         const prevData = JSON.parse(localStorage.getItem("dataLocal")) || [];
         const newData = [...prevData, data];
         localStorage.setItem("dataLocal", JSON.stringify(newData));
         alert("Dados adicionados com sucesso!");
+
+        location.reload()
     }
 
     const handleCEPSearch = async () => {
